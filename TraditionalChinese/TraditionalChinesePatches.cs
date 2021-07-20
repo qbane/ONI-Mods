@@ -46,6 +46,9 @@ namespace miZyind.TraditionalChinese
             {
                 PUtil.InitLibrary();
 
+                Debug.Log($"[{ns}] Note: If you see something like \"Desired shader compiler platform 15 is not available in shader blob\", " +
+                          $"it may not be an issue if we manage to replace with one found in-game later.");
+
                 using (var stream = GetResourceStream("font"))
                 {
                     var loadedFont = AssetBundle.LoadFromStream(stream).LoadAsset<TMP_FontAsset>(fn);
@@ -53,6 +56,24 @@ namespace miZyind.TraditionalChinese
                     loadedFont.material.SetFloat(ShaderUtilities.ID_WeightBold, 0.3f);
 
                     TMP_Settings.fallbackFontAssets.Add(loadedFont);
+
+                    var resFonts = Resources.FindObjectsOfTypeAll(typeof(TMP_FontAsset)) as TMP_FontAsset[];
+                    bool shaderReplaced = false;
+
+                    foreach (var rf in resFonts)
+                    {
+                        if (rf.name == "RobotoCondensed-Regular")
+                        {
+                            Debug.Log($"[{ns}] Found a suitable shader to replace: {rf.material.shader}.");
+                            loadedFont.material.shader = rf.material.shader;
+                            shaderReplaced = true;
+                            break;
+                        }
+                    }
+
+                    if (!shaderReplaced) {
+                        Debug.LogWarning($"[{ns}] Cannot find a shader to replace. Depending on your OS, you may encounter issues using this mod.");
+                    }
 
                     font = loadedFont;
                 }
@@ -73,8 +94,10 @@ namespace miZyind.TraditionalChinese
         [HarmonyPatch(nameof(Localization.Initialize))]
         public static class Localization_Initialize_Patch
         {
-            public static bool Prefix()
+            public static bool Prefix(ref string ___currentFontName)
             {
+                Localization.SetLocale(new Localization.Locale(Localization.Language.Unspecified, Localization.Direction.LeftToRight, "", fn));
+
                 var lines = new List<string>();
 
                 using (var stream = GetResourceStream("strings.po"))
@@ -82,7 +105,7 @@ namespace miZyind.TraditionalChinese
                     while (!streamReader.EndOfStream) lines.Add(streamReader.ReadLine());
 
                 Localization.OverloadStrings(Localization.ExtractTranslatedStrings(lines.ToArray(), false));
-
+                ___currentFontName = fn;
                 Localization.SwapToLocalizedFont(fn);
 
                 return false;
