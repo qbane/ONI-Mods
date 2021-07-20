@@ -1,2 +1,4 @@
-supportedContent: EXPANSION1_ID
-lastWorkingBuild: 0
+supportedContent: VANILLA_ID
+minimumSupportedBuild: 469300
+version: 2021.07.99
+APIVersion: 1

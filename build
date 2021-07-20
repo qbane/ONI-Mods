@@ -1,0 +1,4 @@
+#!/bin/bash -x
+rm TraditionalChinese/{bin,obj} -rf
+nuget re
+msbuild
