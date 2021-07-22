@@ -25,9 +25,9 @@
     <OutputType>Library</OutputType>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <!-- Folder -->
-    <SteamFolder>C:\Program Files (x86)\Steam</SteamFolder>
-    <GameFolder>$(SteamFolder)\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed</GameFolder>
-    <ModFolder>$(UserProfile)\Documents\Klei\OxygenNotIncluded\mods\Dev</ModFolder>
+    <SteamFolder>$(Home)/.steam/debian-installation</SteamFolder>
+    <GameFolder>$(SteamFolder)/steamapps/common/OxygenNotIncluded/OxygenNotIncluded_Data/Managed</GameFolder>
+    <ModFolder>$(Home)/.config/unity3d/Klei/Oxygen Not Included/mods/Dev</ModFolder>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PLib" HintPath="$(SolutionDir)\Lib\PLib.dll" />
