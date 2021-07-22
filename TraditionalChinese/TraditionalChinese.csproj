@@ -22,17 +22,16 @@
     <APIVersion>2</APIVersion>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Assets\font_1" />
-    <None Remove="Assets\font_2" />
-    <None Remove="Assets\font_13" />
+    <None Remove="Assets\font_generic" />
+    <None Remove="Assets\font_windows" />
     <None Remove="Assets\preview.png" />
     <None Remove="Assets\preview.xcf" />
     <None Remove="Assets\strings.po" />
     <None Remove="Assets\strings_template.pot" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\font_1" />
-    <EmbeddedResource Include="Assets\font_2" />
+    <EmbeddedResource Include="Assets\font_generic" />
+    <EmbeddedResource Include="Assets\font_windows" />
     <EmbeddedResource Include="Assets\preview.png" />
     <EmbeddedResource Include="Assets\strings.po" />
   </ItemGroup>

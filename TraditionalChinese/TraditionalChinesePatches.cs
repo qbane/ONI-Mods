@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,10 +16,10 @@ namespace miZyind.TraditionalChinese
 
     public class TraditionalChinesePatches : KMod.UserMod2
     {
-        private const string fn = "NotoSansCJKtc-Regular";
+        private static string fn;
         private static readonly string ns = MethodBase.GetCurrentMethod().DeclaringType.Namespace;
-        private static readonly int pc = (int)Application.platform;
-        private static readonly int fc = pc > 3 ? 2 : pc;
+        private static readonly bool isWindows = (Application.platform == RuntimePlatform.WindowsPlayer);
+        private static readonly string sfx = isWindows ? "windows" : "generic";
         private static TMP_FontAsset font;
 
         public override void OnLoad(Harmony harmony)
@@ -27,11 +27,23 @@ namespace miZyind.TraditionalChinese
             harmony.PatchAll();
             PUtil.InitLibrary();
 
-            using (var stream = GetResourceStream($"font_{fc}"))
+            using (var stream = GetResourceStream($"font_{sfx}"))
             {
-                font = AssetBundle.LoadFromStream(stream).LoadAsset<TMP_FontAsset>(fn);
+                var fontsArr = AssetBundle.LoadFromStream(stream).LoadAllAssets<TMP_FontAsset>();
 
-                if (pc > 3) font.material.shader = Resources.Load<TMP_FontAsset>("NotoSansCJKsc-Regular").material.shader;
+                if (fontsArr.Length == 0) {
+                    Debug.LogWarning($"[{ns}] Cannot find any font asset in the asset bundle. The mod is likely to crash.");
+                }
+
+                font = fontsArr[0];
+                fn = font.name;
+
+                Debug.Log($"[{ns}] Using \"{fn}\" as the main font.");
+
+                if (!isWindows) {
+                    Debug.Log($"[{ns}] Replacing the shader for non-Windows environments.");
+                    font.material.shader = Resources.Load<TMP_FontAsset>("RobotoCondensed-Regular").material.shader;
+                }
 
                 TMP_Settings.fallbackFontAssets.Add(font);
             }
@@ -71,8 +83,12 @@ namespace miZyind.TraditionalChinese
         [HarmonyPatch(nameof(Localization.Initialize))]
         public static class Localization_Initialize_Patch
         {
-            public static bool Prefix()
+            public static bool Prefix(ref string ___currentFontName)
             {
+                // To mimic the exact effects the original method makes
+
+                Localization.SetLocale(new Localization.Locale(Localization.Language.Unspecified, Localization.Direction.LeftToRight, "", fn));
+
                 var lines = new List<string>();
 
                 using (var stream = GetResourceStream("strings.po"))
@@ -80,8 +96,8 @@ namespace miZyind.TraditionalChinese
                     while (!streamReader.EndOfStream) lines.Add(streamReader.ReadLine());
 
                 Localization.OverloadStrings(Localization.ExtractTranslatedStrings(lines.ToArray(), false));
-
-                Localization.SwapToLocalizedFont(fn);
+                ___currentFontName = fn;
+                Localization.SwapToLocalizedFont();
 
                 return false;
             }
