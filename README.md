@@ -12,7 +12,6 @@ See the [original discussion thread](https://steamcommunity.com/workshop/filedet
    The package manager can be found in **Windows** > **Package Manager**.
 3. Add your font file as an asset.
 4. Navigate to **Windows** > **TextMesh Pro**. Import the **TMP Essentials** and create a font asset there.
-5. (Optional) Click the little triangle on your newly-created asset. Change the shader of its material to "TextMesh Pro/Mobile/Distance Field".
 
 **Section 2**: Generating an asset bundle (OS-dependent)
 
@@ -22,11 +21,18 @@ See the [original discussion thread](https://steamcommunity.com/workshop/filedet
    * **Linux/macOS**: Prepare a separate Unity 2018.x environment with the specified TextMesh Pro version on either Linux or macOS. The generated file seems to be interchangable at least for now, thus the `generic` named font file in this repository.
 
 2. Install Asset bundle browser (v1.7.0). Navigate to **Windows** > **Asset bundle browser**.
-3. Drag/Import the generated font asset to the **Configure** panel.
-4. In the **Build** panel, select the platform of the form "[YOUR_CURRENT_OS] Standalone 64" and build.
-5. The result will be at `/Asset Bundles/[PLATFORM]/[ASSET_NAME]` under your project directory.
+3. Import the generated font asset in Section 1.
+4. (Optional) If on non-Windows OS, click the little triangle on your newly-created asset. Change the shader of its material to "TextMesh Pro/Mobile/Distance Field". This step is optional, since its shader will be dropped at runtime.
+5. Drag the asset to the **Configure** panel.
+6. In the **Build** panel, select the platform of the form "[YOUR_CURRENT_OS] Standalone 64" and build.
+7. The result will be at `/Asset Bundles/[PLATFORM]/[ASSET_NAME]` under your project directory.
 
-Tested fonts:
+## Some (unsolved) caveats
+
+1. The chosen graphic API affects the build. Seems that OpenGLCore can generate a supported shader on Linux, it renders glyphs incorrectly with flooding error message "OpenGL Error: Invalid texture unit!". Using mobile shader does not work either.
+2. In CS-469300, the same asset bundle can be used in all three platforms. This is no longer the case after [A Breath Of Fresh Air Update](https://store.steampowered.com/news/app/457140/view/4545805013804568807).
+
+## Tested fonts
 
 1. Noto Sans CJK TC (`NotoSansCJKtc-Regular`): https://github.com/miZyind/ONI-Mods (*Upstream*)
 2. jf open 粉圓 (`open-jfhuninn`): https://github.com/dershiuan/ONI-Mods
