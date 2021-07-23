@@ -1,4 +1,41 @@
-﻿# miZyind's ONI Mods
+# About this fork
+
+tl;dr. The author did some extreme trial-and-error to finally successfully port the mod to Linux. The hard work deserves a fork. \
+See the [original discussion thread](https://steamcommunity.com/workshop/filedetails/discussion/2070840646/3044978964803635873) for details. 
+
+# Instructions on building your own font asset bundles
+
+**Section 1**: Generating a font asset
+
+1. Install Unity 2018.x (should be on Windows).
+2. Create a new project with TextMesh Pro (its version **must** be v1.2.x) package. \
+   The package manager can be found in **Windows** > **Package Manager**.
+3. Add your font file as an asset.
+4. Navigate to **Windows** > **TextMesh Pro**. Import the **TMP Essentials** and create a font asset there.
+5. (Optional) Click the little triangle on your newly-created asset. Change the shader of its material to "TextMesh Pro/Mobile/Distance Field".
+
+**Section 2**: Generating an asset bundle (OS-dependent)
+
+1. Depending on the operating system you are going to support:
+
+   * **Windows**: Continue to use the project in Section 1.
+   * **Linux/macOS**: Prepare a separate Unity 2018.x environment with the specified TextMesh Pro version on either Linux or macOS. The generated file seems to be interchangable at least for now, thus the `generic` named font file in this repository.
+
+2. Install Asset bundle browser (v1.7.0). Navigate to **Windows** > **Asset bundle browser**.
+3. Drag/Import the generated font asset to the **Configure** panel.
+4. In the **Build** panel, select the platform of the form "[YOUR_CURRENT_OS] Standalone 64" and build.
+5. The result will be at `/Asset Bundles/[PLATFORM]/[ASSET_NAME]` under your project directory.
+
+Tested fonts:
+
+1. Noto Sans CJK TC (`NotoSansCJKtc-Regular`): https://github.com/miZyind/ONI-Mods (*Upstream*)
+2. jf open 粉圓 (`open-jfhuninn`): https://github.com/dershiuan/ONI-Mods
+
+The original README goes below.
+
+---
+
+# miZyind's ONI Mods
 [![ONI](https://img.shields.io/badge/oxygen_not_included-000?style=for-the-badge&logo=steam)](https://store.steampowered.com/app/457140/Oxygen_Not_Included)
 [![Unity](https://img.shields.io/badge/unity-000?style=for-the-badge&logo=unity)](https://unity.com)
 [![Visual Studio](https://img.shields.io/badge/2019-5c2d91?style=for-the-badge&logo=visual-studio)](https://visualstudio.microsoft.com)
