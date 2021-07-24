@@ -18,7 +18,8 @@ See the [original discussion thread](https://steamcommunity.com/workshop/filedet
 1. Depending on the operating system you are going to support:
 
    * **Windows**: Continue to use the project in Section 1.
-   * **Linux/macOS**: Prepare a separate Unity 2018.x environment with the specified TextMesh Pro version on either Linux or macOS. The generated file seems to be interchangable at least for now, thus the `generic` named font file in this repository.
+   * **Linux/macOS**: Either (a) in Unity, install the OS X build support module, or (b) prepare a separate Unity 2018.x environment with the specified TextMesh Pro version on either Linux or macOS. \
+     The generated file seems to be interchangable at least for now, thus the `generic` named font file in this repository.
 
 2. Install Asset bundle browser (v1.7.0). Navigate to **Windows** > **Asset bundle browser**.
 3. Import the generated font asset in Section 1.
@@ -29,13 +30,13 @@ See the [original discussion thread](https://steamcommunity.com/workshop/filedet
 
 ## Some (unsolved) caveats
 
-1. The chosen graphic API affects the build. Seems that OpenGLCore can generate a supported shader on Linux, it renders glyphs incorrectly with flooding error message "OpenGL Error: Invalid texture unit!". Using mobile shader does not work either.
+1. The chosen graphic API affects the build. Seems that OpenGLCore can generate a supported shader on Linux, it renders glyphs incorrectly with flooding error messages "OpenGL Error: Invalid texture unit!". Using mobile shader does not work either.
 2. In CS-469300, the same asset bundle can be used in all three platforms. This is no longer the case after [A Breath Of Fresh Air Update](https://store.steampowered.com/news/app/457140/view/4545805013804568807).
 
 ## Tested fonts
 
 1. Noto Sans CJK TC (`NotoSansCJKtc-Regular`): https://github.com/miZyind/ONI-Mods (*Upstream*)
-2. jf open 粉圓 (`open-jfhuninn`): https://github.com/dershiuan/ONI-Mods
+2. [jf open 粉圓](https://justfont.com/huninn/) (`jf-openhuninn`): https://github.com/dershiuan/ONI-Mods
 
 The original README goes below.
 
